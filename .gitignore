@@ -3,3 +3,5 @@ node_modules/
 _site/
 test-results/
 playwright-report/
+CODE_REVIEW*.md
+ignore/

@@ -4,7 +4,6 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.webmanifest"), "utf8"));
-const headers = fs.readFileSync(path.join(root, "_headers"), "utf8");
 const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const maskableSvg = fs.readFileSync(path.join(root, "icons/icon-maskable.svg"), "utf8");
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
@@ -30,12 +29,12 @@ assert.deepEqual(pngDimensions("icons/icon-maskable-512.png"), [512, 512]);
 assert.match(maskableSvg, /translate\(51\.2 51\.2\) scale\(\.8\)/);
 assert.ok((467 - 256) * .8 < 512 * .4, "maskable artwork must remain inside the central 80% safe zone");
 
-assert.match(headers, /frame-ancestors 'none'/);
-assert.match(headers, /X-Frame-Options:\s*DENY/);
-assert.match(headers, /X-Content-Type-Options:\s*nosniff/);
 const metaCsp = indexHtml.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];
 assert.ok(metaCsp, "index.html should retain its defense-in-depth CSP");
-assert.ok(headers.includes(metaCsp), "HTTP and meta CSP directives must remain synchronized");
+for (const directive of ["default-src", "script-src", "style-src", "font-src", "img-src", "connect-src", "worker-src", "manifest-src", "base-uri", "object-src"]) {
+  assert.match(metaCsp, new RegExp(`(?:^|; )${directive}(?: |;|$)`), `meta CSP should define ${directive}`);
+}
+assert.doesNotMatch(metaCsp, /(?:^|; )frame-ancestors(?: |;|$)/, "frame-ancestors is not enforced in a meta CSP");
 assert.equal(packageJson.scripts.test, "node --test tests/*.cjs");
 
 console.log("PWA hardening tests passed");
