@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  @keyframes breathe { 0%,100%{transform:scale(0.74);} 45%,55%{transform:scale(1.06);} }
+  @keyframes breatheGlow { 0%,100%{opacity:.3;transform:scale(.7);} 50%{opacity:.75;transform:scale(1.12);} }
+  @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-22px);} }
+  @keyframes floaty2 { 0%,100%{transform:translateY(0) rotate(0);} 50%{transform:translateY(28px) rotate(8deg);} }
+  @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
+  @keyframes bobBig { 0%,100%{transform:translateY(0) rotate(-4deg);} 50%{transform:translateY(-16px) rotate(4deg);} }
+  @keyframes equalize { 0%,100%{transform:scaleY(.35);} 50%{transform:scaleY(1);} }
+  @keyframes equalizeFast { 0%,100%{transform:scaleY(.3);} 50%{transform:scaleY(1);} }
+  @keyframes stepIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes riseIn { from{opacity:0;transform:translateY(9px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes rewardPop { 0%{opacity:1;transform:translateX(-50%) scale(1);} 40%{transform:translateX(-50%) scale(1.08);} 100%{opacity:1;transform:translateX(-50%) scale(1);} }
+  @keyframes sparkle { 0%{opacity:0;transform:translateY(2px) scale(.4);} 30%{opacity:1;} 100%{opacity:0;transform:translateY(-24px) scale(1);} }
+  @keyframes popBurst { 0%{transform:scale(1);} 30%{transform:scale(1.18);} 60%{transform:scale(.9);} 100%{transform:scale(1);} }
+  @keyframes checkPop { 0%{transform:scale(1);} 45%{transform:scale(1.28);} 100%{transform:scale(1);} }
+  @keyframes glowPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,194,75,0);} 50%{box-shadow:0 0 0 7px rgba(255,194,75,.4);} }
+  @keyframes playFill { from{width:0;} to{width:100%;} }
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;width:100%;background:#FCE4D2;font-family:Figtree,sans-serif;overflow:hidden;padding:44px 40px 70px;display:flex;flex-direction:column;align-items:center;">
+
+  <div style="position:absolute;top:120px;left:7%;width:120px;height:120px;border-radius:50%;background:#FFC24B;opacity:.5;animation:floaty 9s ease-in-out infinite;"></div>
+  <div style="position:absolute;top:70px;right:10%;width:80px;height:80px;border-radius:50%;background:#FF8FB1;opacity:.45;animation:floaty2 11s ease-in-out infinite;"></div>
+  <div style="position:absolute;bottom:130px;left:14%;width:64px;height:64px;border-radius:50%;background:#7FD1C1;opacity:.5;animation:floaty2 10s ease-in-out infinite;"></div>
+  <div style="position:absolute;bottom:80px;right:13%;width:140px;height:140px;border-radius:50%;background:#B49DEB;opacity:.4;animation:floaty 12s ease-in-out infinite;"></div>
+
+  <div style="position:relative;z-index:2;text-align:center;margin-bottom:22px;">
+    <div style="display:inline-flex;align-items:center;gap:11px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;border-radius:50%;background:#FF7A4D;box-shadow:0 0 0 6px rgba(255,194,75,.45);animation:bob 4s ease-in-out infinite;"></div>
+      <span style="font-family:'Baloo 2',cursive;font-weight:800;font-size:34px;color:#3A2E2A;letter-spacing:-.5px;">Sunny</span>
+      <span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:15px;color:#fff;background:#FF7A4D;padding:3px 10px;border-radius:12px;">v2</span>
+    </div>
+    <p style="font-size:15px;color:#8A6F5F;margin:0;font-weight:600;">Tap along at each step — small taps add up to a bigger shift</p>
+  </div>
+
+  <!-- PHONE -->
+  <div style="position:relative;z-index:2;width:300px;height:644px;background:#241a16;border-radius:46px;padding:11px;box-shadow:0 34px 60px -22px rgba(120,55,25,.5),0 10px 24px rgba(120,55,25,.22);">
+    <div style="position:absolute;left:50%;top:21px;transform:translateX(-50%);width:96px;height:25px;background:#241a16;border-radius:14px;z-index:30;"></div>
+    <div style="width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;background:#FFFBF5;">
+
+      <!-- ============ STEP 1 · CHECK IN ============ -->
+      <sc-if value="{{ isCheckin }}" hint-placeholder-val="{{ true }}">
+      <div style="width:100%;height:100%;background:#FFFBF5;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="margin-bottom:9px;height:24px;display:flex;align-items:center;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#FF7A4D;letter-spacing:.6px;">STEP 1 OF 5 · Check in</span></div>
+          <div style="display:flex;gap:5px;">
+            <div style="flex:1;height:5px;border-radius:3px;background:#FF7A4D;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+          </div>
+        </div>
+        <div style="padding:14px 26px 0;flex:1;overflow:hidden;">
+          <h2 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:24px;line-height:1.15;color:#3A2E2A;margin:0 0 4px;letter-spacing:-.4px;">How are you feeling right now?</h2>
+          <p style="font-size:13px;color:#A88B79;margin:0 0 16px;font-weight:600;">Your path changes with your answer</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div onClick="{{ pickStressed }}" style="background:#E5F6F2;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#4FC4B0;position:relative;"><div style="position:absolute;top:13px;left:10px;width:5px;height:5px;border-radius:50%;background:#1d3b35;"></div><div style="position:absolute;top:13px;right:10px;width:5px;height:5px;border-radius:50%;background:#1d3b35;"></div><div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:15px;height:7px;border:2px solid #1d3b35;border-bottom:none;border-radius:15px 15px 0 0;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#27554c;">Stressed</span>
+            </div>
+            <div onClick="{{ pickOverwhelmed }}" style="background:#EEE8FB;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#B49DEB;position:relative;"><div style="position:absolute;top:13px;left:10px;width:5px;height:5px;border-radius:50%;background:#352457;"></div><div style="position:absolute;top:13px;right:10px;width:5px;height:5px;border-radius:50%;background:#352457;"></div><div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:15px;height:3px;border-radius:3px;background:#352457;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#473269;">Overwhelmed</span>
+            </div>
+            <div onClick="{{ pickAgitated }}" style="background:#FCE5DC;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#FF7A4D;position:relative;"><div style="position:absolute;top:13px;left:9px;width:7px;height:3px;border-radius:3px;background:#5c2614;transform:rotate(18deg);"></div><div style="position:absolute;top:13px;right:9px;width:7px;height:3px;border-radius:3px;background:#5c2614;transform:rotate(-18deg);"></div><div style="position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:14px;height:6px;border:2px solid #5c2614;border-top:none;border-radius:0 0 15px 15px;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#a13d1d;">Agitated</span>
+            </div>
+            <div onClick="{{ pickLowenergy }}" style="background:#FFF2D6;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#FFC24B;position:relative;"><div style="position:absolute;top:16px;left:9px;width:7px;height:2.5px;border-radius:3px;background:#6b4e12;"></div><div style="position:absolute;top:16px;right:9px;width:7px;height:2.5px;border-radius:3px;background:#6b4e12;"></div><div style="position:absolute;bottom:11px;left:50%;transform:translateX(-50%);width:10px;height:2.5px;border-radius:3px;background:#6b4e12;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#8a6410;">Low energy</span>
+            </div>
+            <div onClick="{{ pickDisengaged }}" style="background:#FCE3EC;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#FF8FB1;position:relative;"><div style="position:absolute;top:13px;left:10px;width:5px;height:5px;border-radius:50%;background:#6b2540;"></div><div style="position:absolute;top:13px;right:10px;width:5px;height:5px;border-radius:50%;background:#6b2540;"></div><div style="position:absolute;bottom:11px;left:50%;transform:translateX(-50%);width:12px;height:2.5px;border-radius:3px;background:#6b2540;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#a14063;">Disengaged</span>
+            </div>
+            <div onClick="{{ pickGood }}" style="background:#E7F3D9;border-radius:20px;padding:13px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.95);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#8FCF6B;position:relative;"><div style="position:absolute;top:13px;left:10px;width:5px;height:5px;border-radius:50%;background:#2f4a1c;"></div><div style="position:absolute;top:13px;right:10px;width:5px;height:5px;border-radius:50%;background:#2f4a1c;"></div><div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:15px;height:7px;border:2px solid #2f4a1c;border-top:none;border-radius:0 0 15px 15px;"></div></div>
+              <span style="font-weight:700;font-size:13px;color:#496a2c;">Pretty good</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ STEP 2 · PLAN ============ -->
+      <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#FFFBF5;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;">
+            <span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#FF7A4D;letter-spacing:.6px;">STEP 2 OF 5 · Your plan</span>
+            <button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#FFF1E9;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#FF7A4D;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button>
+          </div>
+          <div style="display:flex;gap:5px;">
+            <div style="flex:1;height:5px;border-radius:3px;background:#FF7A4D;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#FF7A4D;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+            <div style="flex:1;height:5px;border-radius:3px;background:#F0DDCD;"></div>
+          </div>
+        </div>
+        <div style="padding:12px 24px 0;flex:1;overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:13px;">
+            <span style="font-size:14px;color:#A88B79;font-weight:600;">Tailored for</span>
+            <span style="font-weight:800;font-size:13px;padding:5px 12px;border-radius:14px;background:{{ moodBg }};color:{{ moodInk }};">{{ moodLabel }}</span>
+          </div>
+          <div style="background:#FF7A4D;border-radius:24px;padding:18px 20px;position:relative;overflow:hidden;margin-bottom:16px;">
+            <div style="position:absolute;right:-24px;top:-24px;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.18);"></div>
+            <p style="font-size:12px;font-weight:700;color:#fff;opacity:.85;margin:0 0 6px;text-transform:uppercase;letter-spacing:.5px;">Why this path</p>
+            <h3 style="font-family:'Baloo 2',cursive;font-weight:600;font-size:18px;color:#fff;margin:0;line-height:1.3;">{{ whyLine }}</h3>
+          </div>
+          <p style="font-weight:700;font-size:13px;color:#3A2E2A;margin:0 0 11px;">Your 3 steps, in order</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ journeySteps }}" as="js" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid #F3E6DA;border-radius:18px;padding:11px 14px;">
+                <div style="width:28px;height:28px;border-radius:50%;background:{{ js.bg }};color:{{ js.color }};font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ js.num }}</div>
+                <div style="flex:1;"><p style="font-weight:700;font-size:14px;color:#3A2E2A;margin:0;">{{ js.name }}</p><p style="font-size:12px;color:#A88B79;margin:1px 0 0;">{{ js.desc }}</p></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:8px 24px 22px;">
+          <button onClick="{{ next }}" style="width:100%;border:none;cursor:pointer;background:#3A2E2A;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;" style-active="transform:scale(0.97);">Let's begin →</button>
+        </div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: BREATHE ============ -->
+      <sc-if value="{{ tBreathe }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:linear-gradient(180deg,#2BA593 0%,#1C8475 100%);display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#fff;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #fff;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#fff;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#fff;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;">
+          <div style="position:absolute;width:212px;height:212px;border-radius:50%;background:rgba(255,255,255,.1);animation:breatheGlow 9s ease-in-out infinite;"></div>
+          <div style="position:absolute;width:190px;height:190px;border-radius:50%;background:conic-gradient(#FFE6A8 {{ breathePct }}, rgba(255,255,255,.16) 0);transition:background .5s ease;"></div>
+          <div onClick="{{ addBreath }}" style="width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#FFE9B0,#FFC24B);box-shadow:0 0 50px rgba(255,210,120,.6);animation:breathe 9s ease-in-out infinite;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;color:#7a5410;">in…</span></div>
+        </div>
+        <div style="text-align:center;padding:0 24px;">
+          <p style="font-family:'Baloo 2',cursive;font-weight:600;font-size:22px;color:#fff;margin:0 0 4px;">Breathe slow</p>
+          <p style="font-size:13px;color:#fff;opacity:.82;margin:0 0 6px;">Tap the sun after each long exhale</p>
+          <p style="font-weight:800;font-size:14px;color:#fff;margin:0;">{{ breaths }} / 4 breaths</p>
+        </div>
+        <sc-if value="{{ breatheDone }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;bottom:92px;z-index:20;display:flex;align-items:center;gap:7px;background:#fff;border-radius:18px;padding:9px 15px;box-shadow:0 10px 24px -8px rgba(0,0,0,.3);animation:rewardPop .5s ease both;"><span style="font-size:15px;">✨</span><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#1C8475;">Steadier now</span><div style="position:absolute;top:-6px;left:10px;width:5px;height:5px;border-radius:50%;background:#FFC24B;animation:sparkle 1.2s ease-out infinite;"></div><div style="position:absolute;top:-5px;right:16px;width:4px;height:4px;border-radius:50%;background:#7FD1C1;animation:sparkle 1.2s ease-out infinite .4s;"></div></div>
+        </sc-if>
+        <div style="padding:6px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#fff;color:#1C8475;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#fff;opacity:.4;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: GROUNDING ============ -->
+      <sc-if value="{{ tGrounding }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#F3F6FF;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#5B8DEF;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#E6EEFC;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#5B8DEF;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:14px 26px 0;flex:1;overflow:hidden;">
+          <h2 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:23px;color:#2A3552;margin:0 0 3px;">Find your anchor</h2>
+          <p style="font-size:13px;color:#7C86A3;margin:0 0 10px;">Tap each one as you notice it · {{ groundCount }} / 5</p>
+          <div style="height:6px;border-radius:4px;background:#E2E8F6;overflow:hidden;margin:0 0 14px;"><div style="height:100%;border-radius:4px;background:#5B8DEF;width:{{ groundPct }};transition:width .4s cubic-bezier(.34,1.4,.5,1);"></div></div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <sc-for list="{{ senses }}" as="s" hint-placeholder-count="5">
+              <div onClick="{{ s.onTap }}" style="display:flex;align-items:center;gap:13px;border-radius:16px;padding:11px 14px;cursor:pointer;transition:transform .13s ease, background .25s ease;background:{{ s.bg }};" style-active="transform:scale(0.98);">
+                <div style="width:30px;height:30px;border-radius:50%;background:{{ s.color }};color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ s.num }}</div>
+                <span style="font-weight:600;font-size:14px;color:#2A3552;flex:1;">{{ s.lead }} you can <b style="font-weight:800;">{{ s.label }}</b></span>
+                <sc-if value="{{ s.checked }}" hint-placeholder-val="{{ false }}"><div style="width:23px;height:23px;border-radius:50%;background:{{ s.color }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;animation:checkPop .35s ease;">✓</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ groundDone }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;bottom:92px;z-index:20;display:flex;align-items:center;gap:7px;background:#fff;border-radius:18px;padding:9px 15px;box-shadow:0 10px 24px -8px rgba(60,80,140,.3);animation:rewardPop .5s ease both;"><span style="font-size:15px;">🌿</span><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#3D5BA8;">Anchored in the now</span><div style="position:absolute;top:-6px;left:10px;width:5px;height:5px;border-radius:50%;background:#5B8DEF;animation:sparkle 1.2s ease-out infinite;"></div><div style="position:absolute;top:-5px;right:16px;width:4px;height:4px;border-radius:50%;background:#4FC4B0;animation:sparkle 1.2s ease-out infinite .4s;"></div></div>
+        </sc-if>
+        <div style="padding:12px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#2A3552;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#2A3552;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: MOVEMENT ============ -->
+      <sc-if value="{{ tMovement }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#FFF3EA;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#FF7A4D;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#FFF1E9;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#FF7A4D;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:12px 26px 0;flex:1;overflow:hidden;text-align:center;">
+          <h2 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:23px;color:#3A2E2A;margin:0 0 3px;">Shake it out</h2>
+          <p style="font-size:13px;color:#A88B79;margin:0 0 4px;">Tap each move once you've done it · {{ moveCount }} / 3</p>
+          <div style="height:108px;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="position:absolute;bottom:10px;width:80px;height:12px;border-radius:50%;background:rgba(255,122,77,.18);"></div>
+            <div style="width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#FFD9A0,#FF9D4D);box-shadow:0 12px 24px -6px rgba(255,120,40,.5);position:relative;animation:bobBig 1s ease-in-out infinite;"><div style="position:absolute;top:25px;left:19px;width:7px;height:7px;border-radius:50%;background:#7a3410;"></div><div style="position:absolute;top:25px;right:19px;width:7px;height:7px;border-radius:50%;background:#7a3410;"></div><div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:20px;height:10px;border:3px solid #7a3410;border-top:none;border-radius:0 0 20px 20px;"></div></div>
+          </div>
+          <div style="height:6px;border-radius:4px;background:#F1E0D0;overflow:hidden;margin:0 0 12px;"><div style="height:100%;border-radius:4px;background:#FF7A4D;width:{{ movePct }};transition:width .4s cubic-bezier(.34,1.4,.5,1);"></div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;text-align:left;">
+            <sc-for list="{{ moves }}" as="mv" hint-placeholder-count="3">
+              <div onClick="{{ mv.onTap }}" style="display:flex;align-items:center;gap:13px;border-radius:16px;padding:12px 15px;cursor:pointer;transition:transform .13s ease, background .25s ease;background:{{ mv.bg }};" style-active="transform:scale(0.98);">
+                <div style="width:12px;height:12px;border-radius:50%;background:{{ mv.color }};flex:0 0 auto;"></div>
+                <span style="font-weight:700;font-size:14px;color:#3A2E2A;flex:1;">{{ mv.label }}</span>
+                <sc-if value="{{ mv.checked }}" hint-placeholder-val="{{ false }}"><div style="width:23px;height:23px;border-radius:50%;background:{{ mv.color }};color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:checkPop .35s ease;">✓</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ moveDone }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;bottom:92px;z-index:20;display:flex;align-items:center;gap:7px;background:#fff;border-radius:18px;padding:9px 15px;box-shadow:0 10px 24px -8px rgba(120,55,25,.3);animation:rewardPop .5s ease both;"><span style="font-size:15px;">✨</span><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#a13d1d;">Loosened up</span><div style="position:absolute;top:-6px;left:10px;width:5px;height:5px;border-radius:50%;background:#FFC24B;animation:sparkle 1.2s ease-out infinite;"></div><div style="position:absolute;top:-5px;right:16px;width:4px;height:4px;border-radius:50%;background:#FF8FB1;animation:sparkle 1.2s ease-out infinite .4s;"></div></div>
+        </sc-if>
+        <div style="padding:12px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#3A2E2A;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: LISTEN CALM ============ -->
+      <sc-if value="{{ tListenCalm }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:linear-gradient(180deg,#3A2E55 0%,#4A3A6B 100%);display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#fff;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #fff;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#fff;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#fff;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:12px 26px 0;flex:1;overflow:hidden;text-align:center;">
+          <p style="font-size:12px;font-weight:700;color:#C9B8F0;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px;">Calm sound</p>
+          <div style="width:150px;height:150px;border-radius:28px;margin:0 auto 14px;position:relative;background:linear-gradient(135deg,#7FD1C1,#8B6FD8 60%,#5B8DEF);box-shadow:0 18px 40px -10px rgba(0,0,0,.45);overflow:hidden;display:flex;align-items:center;justify-content:center;"><div style="width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.26);"></div><div style="position:absolute;width:38px;height:38px;border-radius:50%;background:#fff;"></div></div>
+          <h3 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:21px;color:#fff;margin:0 0 3px;">Rain on Leaves</h3>
+          <p style="font-size:13px;color:#C9B8F0;margin:0 0 14px;">Soft &amp; slow · 10 min</p>
+          <div style="display:flex;align-items:flex-end;justify-content:center;gap:4px;height:24px;margin-bottom:14px;">
+            <div style="width:4px;height:100%;border-radius:3px;background:#7FD1C1;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#B49DEB;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite .25s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#fff;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite .5s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#5B8DEF;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite .15s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#7FD1C1;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite .35s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#B49DEB;transform-origin:bottom;animation:equalize 1.4s ease-in-out infinite .45s;animation-play-state:{{ playState }};"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:24px;"><span style="color:#C9B8F0;font-size:19px;">⤺</span><div onClick="{{ togglePlay }}" style="width:54px;height:54px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.3);cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.9);"><sc-if value="{{ playing }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:5px;"><div style="width:5px;height:18px;border-radius:2px;background:#4A3A6B;"></div><div style="width:5px;height:18px;border-radius:2px;background:#4A3A6B;"></div></div></sc-if><sc-if value="{{ notPlaying }}" hint-placeholder-val="{{ true }}"><div style="width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #4A3A6B;margin-left:4px;"></div></sc-if></div><span style="color:#C9B8F0;font-size:19px;">⤻</span></div>
+          <div style="height:5px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden;margin:16px 4px 0;"><div style="height:100%;background:#fff;width:0;animation:playFill 18s linear forwards;animation-play-state:{{ playState }};"></div></div>
+        </div>
+        <div style="padding:10px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#fff;color:#4A3A6B;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#fff;opacity:.4;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: LISTEN UPBEAT ============ -->
+      <sc-if value="{{ tListenUp }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#FFF1E0;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#E8902B;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#FFE6C2;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#E8902B;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:12px 26px 0;flex:1;overflow:hidden;text-align:center;">
+          <p style="font-size:12px;font-weight:700;color:#E8902B;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px;">Bright sound</p>
+          <div style="width:150px;height:150px;border-radius:28px;margin:0 auto 14px;position:relative;background:linear-gradient(135deg,#FFD24B,#FF8F5E 55%,#FF6FA0);box-shadow:0 18px 40px -10px rgba(220,120,40,.4);overflow:hidden;display:flex;align-items:center;justify-content:center;"><div style="width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.32);"></div><div style="position:absolute;width:38px;height:38px;border-radius:50%;background:#fff;"></div></div>
+          <h3 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:21px;color:#3A2E2A;margin:0 0 3px;">Sunrise Pop</h3>
+          <p style="font-size:13px;color:#A88B79;margin:0 0 14px;">Upbeat &amp; warm · 3 min</p>
+          <div style="display:flex;align-items:flex-end;justify-content:center;gap:4px;height:24px;margin-bottom:14px;">
+            <div style="width:4px;height:100%;border-radius:3px;background:#FFC24B;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#FF8F5E;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite .1s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#FF6FA0;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite .2s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#FFC24B;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite .05s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#FF8F5E;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite .15s;animation-play-state:{{ playState }};"></div>
+            <div style="width:4px;height:100%;border-radius:3px;background:#FF6FA0;transform-origin:bottom;animation:equalizeFast .55s ease-in-out infinite .25s;animation-play-state:{{ playState }};"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:24px;"><span style="color:#C99A6A;font-size:19px;">⤺</span><div onClick="{{ togglePlay }}" style="width:54px;height:54px;border-radius:50%;background:#FF7A4D;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(220,110,50,.4);cursor:pointer;transition:transform .13s ease;" style-active="transform:scale(0.9);"><sc-if value="{{ playing }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:5px;"><div style="width:5px;height:18px;border-radius:2px;background:#fff;"></div><div style="width:5px;height:18px;border-radius:2px;background:#fff;"></div></div></sc-if><sc-if value="{{ notPlaying }}" hint-placeholder-val="{{ true }}"><div style="width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff;margin-left:4px;"></div></sc-if></div><span style="color:#C99A6A;font-size:19px;">⤻</span></div>
+          <div style="height:5px;border-radius:3px;background:#F4DCC0;overflow:hidden;margin:16px 4px 0;"><div style="height:100%;background:#FF7A4D;width:0;animation:playFill 18s linear forwards;animation-play-state:{{ playState }};"></div></div>
+        </div>
+        <div style="padding:10px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#3A2E2A;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: SPARK ============ -->
+      <sc-if value="{{ tSpark }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#FFF6EA;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#E84F8B;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#FCE3EC;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#E84F8B;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:14px 26px 0;flex:1;overflow:hidden;">
+          <h2 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:23px;color:#3A2E2A;margin:0 0 3px;">Spark a little light</h2>
+          <p style="font-size:13px;color:#A88B79;margin:0 0 16px;">Pick one — tap it to commit</p>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <div onClick="{{ chooseSpark0 }}" style="background:#E84F8B;border-radius:20px;padding:16px 17px;position:relative;overflow:hidden;cursor:pointer;transition:transform .13s ease;border:3px solid {{ spark0ring }};" style-active="transform:scale(0.98);"><div style="position:absolute;right:-18px;top:-18px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.16);"></div><p style="font-weight:800;font-size:12px;color:#fff;opacity:.85;margin:0 0 4px;text-transform:uppercase;letter-spacing:.4px;">Reach out</p><p style="font-weight:700;font-size:16px;color:#fff;margin:0;line-height:1.3;">Text someone a little “thinking of you 🌞”</p><sc-if value="{{ spark0 }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:13px;right:13px;width:24px;height:24px;border-radius:50%;background:#fff;color:#E84F8B;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:checkPop .35s ease;">✓</div></sc-if></div>
+            <div onClick="{{ chooseSpark1 }}" style="display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:13px 15px;cursor:pointer;transition:transform .13s ease;border:2px solid {{ spark1ring }};" style-active="transform:scale(0.98);"><div style="width:36px;height:36px;border-radius:12px;background:#FFF2D6;flex:0 0 auto;display:flex;align-items:center;justify-content:center;"><div style="width:14px;height:14px;border-radius:50%;background:#FFC24B;"></div></div><span style="font-weight:700;font-size:14px;color:#3A2E2A;line-height:1.3;flex:1;">Step outside for 60 seconds of sky</span><sc-if value="{{ spark1 }}" hint-placeholder-val="{{ false }}"><div style="width:23px;height:23px;border-radius:50%;background:#FFC24B;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:checkPop .35s ease;">✓</div></sc-if></div>
+            <div onClick="{{ chooseSpark2 }}" style="display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:13px 15px;cursor:pointer;transition:transform .13s ease;border:2px solid {{ spark2ring }};" style-active="transform:scale(0.98);"><div style="width:36px;height:36px;border-radius:12px;background:#E5F6F2;flex:0 0 auto;display:flex;align-items:center;justify-content:center;"><div style="width:14px;height:14px;border-radius:50%;border:3px solid #4FC4B0;"></div></div><span style="font-weight:700;font-size:14px;color:#3A2E2A;line-height:1.3;flex:1;">Name one person you're glad exists</span><sc-if value="{{ spark2 }}" hint-placeholder-val="{{ false }}"><div style="width:23px;height:23px;border-radius:50%;background:#4FC4B0;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:checkPop .35s ease;">✓</div></sc-if></div>
+          </div>
+        </div>
+        <sc-if value="{{ sparkDone }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;bottom:92px;z-index:20;display:flex;align-items:center;gap:7px;background:#fff;border-radius:18px;padding:9px 15px;box-shadow:0 10px 24px -8px rgba(120,55,25,.3);animation:rewardPop .5s ease both;"><span style="font-size:15px;">💛</span><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#C23E73;">That counts</span><div style="position:absolute;top:-6px;left:10px;width:5px;height:5px;border-radius:50%;background:#FF8FB1;animation:sparkle 1.2s ease-out infinite;"></div><div style="position:absolute;top:-5px;right:16px;width:4px;height:4px;border-radius:50%;background:#FFC24B;animation:sparkle 1.2s ease-out infinite .4s;"></div></div>
+        </sc-if>
+        <div style="padding:12px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#3A2E2A;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+      <!-- ============ ACTIVITY: POP ============ -->
+      <sc-if value="{{ tPop }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;height:100%;background:#FFF6EA;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 0;font-weight:700;font-size:13px;color:#3A2E2A;"><span>9:41</span><div style="width:17px;height:11px;border:1.5px solid #3A2E2A;border-radius:3px;"></div></div>
+        <div style="padding:14px 22px 2px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;height:24px;"><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:12px;color:#FF7A4D;letter-spacing:.6px;">{{ stepLabel }}</span><button onClick="{{ startOver }}" style="display:inline-flex;align-items:center;gap:5px;background:#FFF1E9;border:none;border-radius:16px;padding:6px 11px;cursor:pointer;font-family:Figtree;font-weight:700;font-size:11px;color:#FF7A4D;transition:transform .13s ease;" style-active="transform:scale(0.93);">↻ Start over</button></div>
+          <div style="display:flex;gap:5px;"><div style="flex:1;height:5px;border-radius:3px;background:{{ seg1 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg2 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg3 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg4 }};"></div><div style="flex:1;height:5px;border-radius:3px;background:{{ seg5 }};"></div></div>
+        </div>
+        <div style="padding:14px 26px 0;flex:1;overflow:hidden;text-align:center;">
+          <h2 style="font-family:'Baloo 2',cursive;font-weight:700;font-size:23px;color:#3A2E2A;margin:0 0 3px;">Pop the noise</h2>
+          <p style="font-size:13px;color:#A88B79;margin:0 0 10px;">Tap a bubble for each thing on your mind · {{ popCount }} / 9</p>
+          <div style="height:6px;border-radius:4px;background:#F1E0D0;overflow:hidden;margin:0 26px 16px;"><div style="height:100%;border-radius:4px;background:#FF8FB1;width:{{ popPct }};transition:width .35s cubic-bezier(.34,1.4,.5,1);"></div></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;padding:0 6px;">
+            <sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="9">
+              <div onClick="{{ b.onTap }}" style="aspect-ratio:1;border-radius:50%;cursor:pointer;transition:transform .15s ease;background:{{ b.bg }};border:{{ b.border }};animation:{{ b.anim }};" style-active="transform:scale(0.82);"></div>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ popDone }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;bottom:96px;z-index:20;display:flex;align-items:center;gap:7px;background:#fff;border-radius:18px;padding:9px 15px;box-shadow:0 10px 24px -8px rgba(120,55,25,.3);animation:rewardPop .5s ease both;"><span style="font-size:15px;">✨</span><span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#a14063;">All clear — noise gone</span><div style="position:absolute;top:-6px;left:10px;width:5px;height:5px;border-radius:50%;background:#FFC24B;animation:sparkle 1.2s ease-out infinite;"></div><div style="position:absolute;top:-5px;right:16px;width:4px;height:4px;border-radius:50%;background:#7FD1C1;animation:sparkle 1.2s ease-out infinite .3s;"></div><div style="position:absolute;top:-8px;right:34px;width:4px;height:4px;border-radius:50%;background:#FF8FB1;animation:sparkle 1.2s ease-out infinite .6s;"></div></div>
+        </sc-if>
+        <div style="padding:14px 24px 22px;"><button onClick="{{ primaryAction }}" style="width:100%;border:none;cursor:pointer;background:#3A2E2A;color:#fff;border-radius:18px;padding:15px;font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s ease;animation:{{ ctaGlow }};" style-active="transform:scale(0.97);">{{ primaryLabel }}</button></div>
+        <div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:118px;height:5px;border-radius:3px;background:#3A2E2A;opacity:.25;"></div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { step: 0, mood: 'overwhelmed', popped: [], grounded: [], moved: [], breaths: 0, spark: null, playing: false };
+
+  moods = {
+    stressed:    { label: 'Stressed',    bg: '#E5F6F2', ink: '#27554c' },
+    overwhelmed: { label: 'Overwhelmed', bg: '#EEE8FB', ink: '#473269' },
+    agitated:    { label: 'Agitated',    bg: '#FCE5DC', ink: '#a13d1d' },
+    lowenergy:   { label: 'Low energy',  bg: '#FFF2D6', ink: '#8a6410' },
+    disengaged:  { label: 'Disengaged',  bg: '#FCE3EC', ink: '#a14063' },
+    good:        { label: 'Pretty good', bg: '#E7F3D9', ink: '#496a2c' },
+  };
+
+  acts = {
+    breathe:    { name: 'Breathe',      short: 'Breathe',      desc: 'Long, slow exhales',   color: '#2BA593', bg: '#E5F6F2', cta: 'I feel calmer' },
+    grounding:  { name: 'Ground',       short: 'Ground',       desc: '5-4-3-2-1 senses',     color: '#5B8DEF', bg: '#E6EEFC', cta: "I'm back in my body" },
+    movement:   { name: 'Shake it out', short: 'Shake it out', desc: 'Move the energy out',  color: '#FF7A4D', bg: '#FCE5DC', cta: 'Shaken loose' },
+    listenCalm: { name: 'Calm sound',   short: 'Listen',       desc: 'Soft ambient',         color: '#8B6FD8', bg: '#EEE8FB', cta: 'Settled' },
+    listenUp:   { name: 'Bright sound', short: 'Listen',       desc: 'An upbeat tune',       color: '#E8902B', bg: '#FFF0D6', cta: 'Brighter already' },
+    spark:      { name: 'Spark',        short: 'Spark',        desc: 'One small connection', color: '#E84F8B', bg: '#FCE3EC', cta: "I'll do it" },
+    pop:        { name: 'Tiny lift',    short: 'Tiny lift',    desc: 'Pop the noise',        color: '#FF8FB1', bg: '#FCE3EC', cta: 'One more' },
+  };
+
+  journeys = {
+    stressed:    { why: "You're wound tight — let's release the body, anchor your senses, then quiet the mind.", steps: ['breathe', 'grounding', 'listenCalm'] },
+    overwhelmed: { why: "Too much at once. Let's anchor to right now, clear the noise, then soften the edges.",  steps: ['grounding', 'pop', 'listenCalm'] },
+    agitated:    { why: "That restless heat needs somewhere to go — shake it out, cool it down, then settle.",   steps: ['movement', 'breathe', 'listenCalm'] },
+    lowenergy:   { why: "Running on empty. Let's wake the body, lift the tempo, then step into the light.",      steps: ['movement', 'listenUp', 'spark'] },
+    disengaged:  { why: "Feeling far away — let's reconnect your senses, spark a little contact, bring color back.", steps: ['grounding', 'spark', 'listenUp'] },
+    good:        { why: "Already glowing — let's keep it going: a little play, a bright tune, a kindness to pass on.", steps: ['pop', 'listenUp', 'spark'] },
+  };
+
+  darkTypes = { breathe: true, listenCalm: true };
+  bubbleColors = ['#FF8FB1', '#7FD1C1', '#FFC24B', '#B49DEB', '#FF7A4D', '#8FCF6B', '#5B8DEF', '#FF6FA0', '#4FC4B0'];
+  senseData = [
+    { num: 5, label: 'see',   color: '#4FC4B0', tint: '#E5F6F2' },
+    { num: 4, label: 'feel',  color: '#5B8DEF', tint: '#E6EEFC' },
+    { num: 3, label: 'hear',  color: '#B49DEB', tint: '#EEE8FB' },
+    { num: 2, label: 'smell', color: '#FF8FB1', tint: '#FCE3EC' },
+    { num: 1, label: 'taste', color: '#FFC24B', tint: '#FFF2D6' },
+  ];
+  moveData = [
+    { label: 'Roll your shoulders back ×5', color: '#FF7A4D' },
+    { label: 'Shake out both hands, fast',  color: '#FFC24B' },
+    { label: 'Reach up tall, then flop down', color: '#FF8FB1' },
+  ];
+
+  fresh() { return { popped: [], grounded: [], moved: [], breaths: 0, spark: null, playing: false }; }
+  pick(k) { this.setState({ mood: k, step: 1, ...this.fresh() }); }
+  next() { this.setState(s => ({ step: Math.min(s.step + 1, 4), ...this.fresh() })); }
+  startOver() { this.setState({ step: 0, mood: 'overwhelmed', ...this.fresh() }); }
+
+  popBubble(i) { this.setState(s => (s.popped.includes(i) ? null : { popped: [...s.popped, i] })); }
+  toggleGround(i) { this.setState(s => ({ grounded: s.grounded.includes(i) ? s.grounded.filter(x => x !== i) : [...s.grounded, i] })); }
+  toggleMove(i) { this.setState(s => ({ moved: s.moved.includes(i) ? s.moved.filter(x => x !== i) : [...s.moved, i] })); }
+  addBreath() { this.setState(s => ({ breaths: Math.min(s.breaths + 1, 4) })); }
+  chooseSpark(i) { this.setState({ spark: i }); }
+  togglePlay() { this.setState(s => ({ playing: !s.playing })); }
+
+  renderVals() {
+    const step = this.state.step;
+    const { popped, grounded, moved, breaths, spark, playing } = this.state;
+    const j = this.journeys[this.state.mood] || this.journeys.overwhelmed;
+    const m = this.moods[this.state.mood] || this.moods.overwhelmed;
+    const type = step >= 2 ? j.steps[step - 2] : null;
+    const isDark = step >= 2 && !!this.darkTypes[type];
+    const a = type ? this.acts[type] : null;
+    const stepName = step === 0 ? 'Check in' : step === 1 ? 'Your plan' : this.acts[type].short;
+    const isLast = step === 4;
+    const segOn = isDark ? '#ffffff' : '#FF7A4D';
+    const segOff = isDark ? 'rgba(255,255,255,0.3)' : '#F0DDCD';
+    const seg = (i) => (i <= step ? segOn : segOff);
+    const journeySteps = j.steps.map((t, idx) => ({
+      num: idx + 3, name: this.acts[t].name, desc: this.acts[t].desc,
+      color: this.acts[t].color, bg: this.acts[t].bg,
+    }));
+
+    const bubbles = this.bubbleColors.map((c, i) => {
+      const p = popped.includes(i);
+      return {
+        onTap: () => this.popBubble(i),
+        bg: p ? '#F4E8DC' : `radial-gradient(circle at 36% 30%,#fff,${c})`,
+        border: p ? '2px dashed #E6D3C2' : 'none',
+        anim: p ? 'popBurst .35s ease' : `bob ${(3 + (i % 5) * 0.12).toFixed(2)}s ease-in-out infinite ${(i * 0.07).toFixed(2)}s`,
+      };
+    });
+    const senses = this.senseData.map((s, i) => ({
+      num: s.num, label: s.label, color: s.color,
+      lead: s.num === 1 ? 'thing' : 'things',
+      checked: grounded.includes(i),
+      bg: grounded.includes(i) ? s.tint : '#ffffff',
+      onTap: () => this.toggleGround(i),
+    }));
+    const moves = this.moveData.map((mv, i) => ({
+      label: mv.label, color: mv.color,
+      checked: moved.includes(i),
+      bg: moved.includes(i) ? '#FFF1E4' : '#ffffff',
+      onTap: () => this.toggleMove(i),
+    }));
+
+    const popDone = popped.length >= 9;
+    const groundDone = grounded.length >= 5;
+    const moveDone = moved.length >= 3;
+    const breatheDone = breaths >= 4;
+    const sparkDone = spark != null;
+    let stepDone = false;
+    if (type === 'pop') stepDone = popDone;
+    else if (type === 'grounding') stepDone = groundDone;
+    else if (type === 'movement') stepDone = moveDone;
+    else if (type === 'breathe') stepDone = breatheDone;
+    else if (type === 'spark') stepDone = sparkDone;
+
+    return {
+      isCheckin: step === 0,
+      isPlan: step === 1,
+      tBreathe: type === 'breathe',
+      tGrounding: type === 'grounding',
+      tMovement: type === 'movement',
+      tListenCalm: type === 'listenCalm',
+      tListenUp: type === 'listenUp',
+      tSpark: type === 'spark',
+      tPop: type === 'pop',
+      stepLabel: `STEP ${step + 1} OF 5 · ${stepName}`,
+      seg1: seg(0), seg2: seg(1), seg3: seg(2), seg4: seg(3), seg5: seg(4),
+      moodLabel: m.label, moodBg: m.bg, moodInk: m.ink,
+      whyLine: j.why, journeySteps,
+      primaryLabel: isLast ? 'You did it 🌞  Start over' : (a ? a.cta + ' →' : 'Next →'),
+      primaryAction: isLast ? () => this.startOver() : () => this.next(),
+      ctaGlow: stepDone ? 'glowPulse 1.6s ease-in-out infinite' : 'none',
+      next: () => this.next(),
+      startOver: () => this.startOver(),
+      pickStressed: () => this.pick('stressed'),
+      pickOverwhelmed: () => this.pick('overwhelmed'),
+      pickAgitated: () => this.pick('agitated'),
+      pickLowenergy: () => this.pick('lowenergy'),
+      pickDisengaged: () => this.pick('disengaged'),
+      pickGood: () => this.pick('good'),
+      bubbles, senses, moves,
+      popCount: popped.length, popPct: Math.round(popped.length / 9 * 100) + '%', popDone,
+      groundCount: grounded.length, groundPct: Math.round(grounded.length / 5 * 100) + '%', groundDone,
+      moveCount: moved.length, movePct: Math.round(moved.length / 3 * 100) + '%', moveDone,
+      breaths, breathePct: Math.round(breaths / 4 * 100) + '%', breatheDone,
+      addBreath: () => this.addBreath(),
+      sparkDone,
+      spark0: spark === 0, spark1: spark === 1, spark2: spark === 2,
+      spark0ring: spark === 0 ? '#7a2e50' : 'transparent',
+      spark1ring: spark === 1 ? '#FFC24B' : '#F3E6DA',
+      spark2ring: spark === 2 ? '#4FC4B0' : '#F3E6DA',
+      chooseSpark0: () => this.chooseSpark(0),
+      chooseSpark1: () => this.chooseSpark(1),
+      chooseSpark2: () => this.chooseSpark(2),
+      togglePlay: () => this.togglePlay(),
+      playing, notPlaying: !playing,
+      playState: playing ? 'running' : 'paused',
+    };
+  }
+}
+</script>
+</body>
+</html>
