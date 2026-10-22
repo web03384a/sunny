@@ -33,3 +33,9 @@ is therefore the Content Security Policy delivered by the `<meta>` element in
 protection via `frame-ancestors` or `X-Frame-Options`, cannot be enforced on
 this host. If those headers become necessary, deploy the same static artifact
 to a host that supports response-header configuration.
+
+## Node.js version
+
+Use Node.js 24.22.1 or a newer 24.x patch release. Run `nvm install && nvm use`
+to select the patched version in `.nvmrc`. The minimum includes the October 21, 2026
+[Node.js security fixes](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
