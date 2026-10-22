@@ -39,3 +39,8 @@ to a host that supports response-header configuration.
 Use Node.js 24.22.1 or a newer 24.x patch release. Run `nvm install && nvm use`
 to select the patched version in `.nvmrc`. The minimum includes the October 21, 2026
 [Node.js security fixes](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+
+The patched Node.js range is enforced by `devEngines.runtime` before npm install,
+CI, and script commands. `.npmrc` also enables strict engine checks for installs
+with older npm versions. Use the npm bundled with the supported Node.js release;
+run `nvm install && nvm use` if a command reports an incompatible runtime.
